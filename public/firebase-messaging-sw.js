@@ -13,25 +13,47 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
-// Handle background messages
+// Handle background messages (when browser tab is not active)
 messaging.onBackgroundMessage((payload) => {
-  console.log('[firebase-messaging-sw.js] Received background message ', payload);
+  console.log('[firebase-messaging-sw.js] Received background message:', payload);
   
-  // If the payload already has a notification object, the browser will automatically show a notification.
-  // We should NOT show our own notification here to avoid duplicates.
-  if (payload.notification) {
-      return; 
-  }
-
-  const notificationTitle = payload.notification?.title || payload.data?.title || 'New Notification';
+  // Extract notification details from either notification or data payload
+  const notificationTitle = payload.notification?.title || payload.data?.title || 'BloodHive Notification';
   const notificationOptions = {
     body: payload.notification?.body || payload.data?.body || 'You have a new message.',
-    icon: '/vite.svg', // Replace with a solid color maskable icon if possible
+    icon: payload.notification?.icon || '/images/blood-icon.png',
     badge: '/vite.svg',
     vibrate: [200, 100, 200, 100, 200, 100, 400],
-    requireInteraction: true, // Makes it behave like a persistent popup module
-    data: { url: '/' }
+    requireInteraction: true,
+    tag: 'bloodhive-notification-' + Date.now(), // Unique tag prevents dedup/suppression
+    data: { 
+      url: payload.data?.url || payload.fcmOptions?.link || '/' 
+    }
   };
 
+  // ALWAYS show the notification ourselves
   self.registration.showNotification(notificationTitle, notificationOptions);
+});
+
+// Handle notification click — open the app URL
+self.addEventListener('notificationclick', (event) => {
+  console.log('[firebase-messaging-sw.js] Notification clicked:', event);
+  event.notification.close();
+  
+  const targetUrl = event.notification.data?.url || '/';
+  
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
+      // If a window is already open, focus it
+      for (const client of clientList) {
+        if (client.url.includes('blood-hive') && 'focus' in client) {
+          return client.focus();
+        }
+      }
+      // Otherwise open a new window
+      if (clients.openWindow) {
+        return clients.openWindow(targetUrl);
+      }
+    })
+  );
 });

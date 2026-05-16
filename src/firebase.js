@@ -22,28 +22,52 @@ const analytics = typeof window !== 'undefined' ? getAnalytics(app) : null;
 export const messaging = typeof window !== 'undefined' ? getMessaging(app) : null;
 
 export const requestFcmToken = async () => {
-  if (!messaging) return;
+  if (!messaging) {
+    console.warn('[FCM] Messaging not available (not in browser context)');
+    return null;
+  }
   try {
+    console.log('[FCM] Requesting notification permission...');
     const permission = await Notification.requestPermission();
+    console.log('[FCM] Permission result:', permission);
+    
     if (permission === 'granted') {
-      // Explicitly register the service worker to prevent Vite timeout issues
+      // Register the service worker explicitly
       let swRegistration = null;
       if ('serviceWorker' in navigator) {
-        swRegistration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+        try {
+          swRegistration = await navigator.serviceWorker.register('/firebase-messaging-sw.js', {
+            scope: '/'
+          });
+          // Wait for the service worker to be ready
+          await navigator.serviceWorker.ready;
+          console.log('[FCM] Service worker registered and ready:', swRegistration.scope);
+        } catch (swError) {
+          console.error('[FCM] Service worker registration failed:', swError);
+        }
+      } else {
+        console.warn('[FCM] Service workers not supported in this browser');
       }
       
-      // NOTE: Retrieve your VAPID key from Firebase Console -> Cloud Messaging -> Web configuration
+      // Get the FCM token
       const token = await getToken(messaging, { 
         vapidKey: 'BMwEU3uaFVrC0VnitSkXRKKgYl3oA4LjRyEIrc0sSt-7Q1UkW05eqHkEkP2wo8n36Ey1YavQ3f54xLpLFwD5gh0',
         serviceWorkerRegistration: swRegistration
       });
-      console.log('FCM Token:', token);
+      
+      if (token) {
+        console.log('[FCM] ✅ Token generated successfully:', token.substring(0, 30) + '...');
+      } else {
+        console.warn('[FCM] ⚠️ No token returned — check VAPID key and Firebase config');
+      }
       return token;
     } else {
-      console.error('Notification permission denied.');
+      console.error('[FCM] ❌ Notification permission denied by user');
+      return null;
     }
   } catch (error) {
-    console.error('An error occurred while retrieving token. ', error);
+    console.error('[FCM] ❌ Error during token retrieval:', error);
+    return null;
   }
 };
 

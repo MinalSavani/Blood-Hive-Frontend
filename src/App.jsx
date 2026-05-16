@@ -45,15 +45,22 @@ function App() {
     // Listen to continuous foreground notifications
     const unsubscribe = onMessageListener((payload) => {
       if (!payload) return;
-      const title = payload.notification?.title || "Notification";
+      console.log("[App] Foreground FCM payload received:", payload);
+      
+      // Support both notification and data-only payloads
+      const title = payload.notification?.title || payload.data?.title || "Notification";
+      const body = payload.notification?.body || payload.data?.body || "";
+      const icon = payload.notification?.icon || payload.data?.icon || "/images/blood-icon.png";
+      
       const options = {
-        body: payload.notification?.body,
-        icon: "/vite.svg",
+        body,
+        icon,
         requireInteraction: true,
-        vibrate: [200, 100, 200]
+        vibrate: [200, 100, 200],
+        tag: 'bloodhive-fg-' + Date.now()
       };
       
-      // Try to show browser popup using service worker registration (better for mobile)
+      // Use service worker to show notification (works better on mobile)
       if (Notification.permission === "granted") {
         if ("serviceWorker" in navigator) {
           navigator.serviceWorker.ready.then((registration) => {
@@ -63,7 +70,7 @@ function App() {
           new Notification(title, options);
         }
       } else {
-        alert(title + "\n" + (options.body || "")); // Fallback if browser blocks popups
+        alert(title + "\n" + body);
       }
     });
 

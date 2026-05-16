@@ -1,0 +1,22 @@
+{
+  "name": "BloodHive",
+  "short_name": "BloodHive",
+  "description": "Blood Donation Platform - Donate Blood, Save Lives",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#dc2626",
+  "gcm_sender_id": "103953800507",
+  "icons": [
+    {
+      "src": "/images/blood-icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/blood-icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
