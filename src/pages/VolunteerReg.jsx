@@ -18,7 +18,8 @@ export default function VolunteerReg() {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:5000/api/volunteers", formData);
+      // const res = await axios.post("http://localhost:5000/api/volunteers", formData);
+      const res = await axios.post("https://blood-hive-backend-1.onrender.com/api/volunteers", formData);
       alert(res.data.message);
     } catch (error) {
       console.error("Registration Error:", error.response?.data?.error || error.message);

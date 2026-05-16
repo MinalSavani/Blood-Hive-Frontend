@@ -27,7 +27,8 @@ function App() {
             const userToken = localStorage.getItem("userToken");
             if (user && user.email) {
               const safeEmail = user.email.replace(/[@.]/g, '_');
-              await axios.post("http://localhost:5000/api/fcm/subscribe", 
+              // await axios.post("http://localhost:5000/api/fcm/subscribe", 
+              await axios.post("https://blood-hive-backend-1.onrender.com/api/fcm/subscribe", 
                 { token, topic: `user_${safeEmail}` },
                 { headers: { Authorization: `Bearer ${userToken}` } }
               );

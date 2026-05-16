@@ -64,7 +64,8 @@ export default function Register() {
       fcmToken = await requestFcmToken() || "";
     } catch (e) { console.error("FCM token error", e); }
     try {
-      const res = await axios.post("http://localhost:5000/donors", { ...formData, fcmToken });
+      // const res = await axios.post("http://localhost:5000/donors", { ...formData, fcmToken });
+      const res = await axios.post("https://blood-hive-backend-1.onrender.com/donors", { ...formData, fcmToken });
       setSubmitted(true);
       console.log(res.data.message);
     } catch (error) {

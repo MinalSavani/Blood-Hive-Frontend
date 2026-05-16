@@ -20,7 +20,8 @@ const ContactUs = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:5000/contact", formData);
+      // const res = await axios.post("http://localhost:5000/contact", formData);
+      const res = await axios.post("https://blood-hive-backend-1.onrender.com/contact", formData);
 
       alert(res.data.message); // Show success message
       setFormData({ firstName: "", lastName: "", email: "", message: "" }); // Clear form

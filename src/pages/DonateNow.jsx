@@ -54,7 +54,8 @@ const DonateNow = () => {
     try {
       const token = localStorage.getItem("userToken");
       const response = await axios.get(
-        "http://localhost:5000/api/donation/user-profile",
+        // "http://localhost:5000/api/donation/user-profile",
+        "https://blood-hive-backend-1.onrender.com/api/donation/user-profile",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -104,7 +105,8 @@ console.log("Token:", token); // Is it null? Malformed?
     try {
       const token = localStorage.getItem("userToken");
       const res = await axios.post(
-        "http://localhost:5000/api/donation/donate-now",
+        // "http://localhost:5000/api/donation/donate-now",
+        "https://blood-hive-backend-1.onrender.com/api/donation/donate-now",
         formData,
         {
           headers: { Authorization: `Bearer ${token}` },

@@ -190,7 +190,8 @@ const BloodBankSearch = () => {
   
       const encodedBloodGroup = encodeURIComponent(bloodGroup);
       const response = await fetch(
-        `http://localhost:5000/api/bloodbanks?state=${state}&city=${city}&bloodGroup=${encodedBloodGroup}`
+        // `http://localhost:5000/api/bloodbanks?state=${state}&city=${city}&bloodGroup=${encodedBloodGroup}`
+        `https://blood-hive-backend-1.onrender.com/api/bloodbanks?state=${state}&city=${city}&bloodGroup=${encodedBloodGroup}`
       );
   
       const data = await response.json();
@@ -285,13 +286,15 @@ const BloodBankSearch = () => {
               if (token) {
                 // Subscribe user to their city's restock topic
                 const topicName = `city-${city.replace(/[^a-zA-Z0-9]/g, '')}`;
-                await axios.post("http://localhost:5000/api/fcm/subscribe", { 
+                // await axios.post("http://localhost:5000/api/fcm/subscribe", { 
+                await axios.post("https://blood-hive-backend-1.onrender.com/api/fcm/subscribe", { 
                   token, 
                   topic: topicName 
                 });
                 
                 // Create the pending alert in the database so the backend knows they are waiting
-                await fetch("http://localhost:5000/api/blood-alerts", {
+                // await fetch("http://localhost:5000/api/blood-alerts", {
+                await fetch("https://blood-hive-backend-1.onrender.com/api/blood-alerts", {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({ state, city, bloodGroup })

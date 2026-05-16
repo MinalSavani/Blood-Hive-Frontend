@@ -90,7 +90,8 @@ const MyCertificate = ({ userId }) => {
     try {
       setLoading(true);
       const token = localStorage.getItem("userToken");
-      const res = await axios.get(`http://localhost:5000/api/certificates/user/${userId}`, {
+      // const res = await axios.get(`http://localhost:5000/api/certificates/user/${userId}`, {
+      const res = await axios.get(`https://blood-hive-backend-1.onrender.com/api/certificates/user/${userId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.data && res.data.length > 0) {
@@ -168,7 +169,8 @@ const MyCertificate = ({ userId }) => {
   const handleDownload = async () => {
     try {
       const token = localStorage.getItem("userToken");
-      const response = await axios.get(`http://localhost:5000/api/certificates/${donation._id}`, {
+      // const response = await axios.get(`http://localhost:5000/api/certificates/${donation._id}`, {
+      const response = await axios.get(`https://blood-hive-backend-1.onrender.com/api/certificates/${donation._id}`, {
         headers: { Authorization: `Bearer ${token}` },
         responseType: 'blob' // Important for PDF download
       });

@@ -22,7 +22,8 @@ const LoginUser = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
+      // const response = await fetch("http://localhost:5000/api/auth/login", {
+      const response = await fetch("https://blood-hive-backend-1.onrender.com/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -55,7 +56,8 @@ const LoginUser = () => {
       setError("");
       setIsSubmitting(true);
       try {
-          const response = await fetch("http://localhost:5000/api/auth/guest", {
+          // const response = await fetch("http://localhost:5000/api/auth/guest", {
+          const response = await fetch("https://blood-hive-backend-1.onrender.com/api/auth/guest", {
               method: "POST",
               headers: { "Content-Type": "application/json" }
           });

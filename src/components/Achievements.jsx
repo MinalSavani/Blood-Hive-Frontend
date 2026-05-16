@@ -10,7 +10,8 @@ const Achievements = ({ userId }) => {
     const fetchBadges = async () => {
       try {
         const token = localStorage.getItem("userToken");
-        const res = await axios.get(`http://localhost:5000/api/badges/${userId}`, {
+        // const res = await axios.get(`http://localhost:5000/api/badges/${userId}`, {
+        const res = await axios.get(`https://blood-hive-backend-1.onrender.com/api/badges/${userId}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setEarnedBadges(res.data.earned || []);
