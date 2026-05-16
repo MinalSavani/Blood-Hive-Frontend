@@ -26,7 +26,7 @@ function App() {
             const user = JSON.parse(userData);
             const userToken = localStorage.getItem("userToken");
             if (user && user.email) {
-              const safeEmail = user.email.replace(/[@.]/g, '_');
+              const safeEmail = user.email.toLowerCase().replace(/[@.]/g, '_');
               const API_BASE = window.location.hostname === "localhost" 
                 ? "http://localhost:5000" 
                 : "https://blood-hive-backend-1.onrender.com";
