@@ -50,11 +50,17 @@ function App() {
         vibrate: [200, 100, 200]
       };
       
-      // Try to show browser popup
+      // Try to show browser popup using service worker registration (better for mobile)
       if (Notification.permission === "granted") {
-        new Notification(title, options);
+        if ("serviceWorker" in navigator) {
+          navigator.serviceWorker.ready.then((registration) => {
+            registration.showNotification(title, options);
+          });
+        } else {
+          new Notification(title, options);
+        }
       } else {
-        alert(title + "\n" + options.body); // Fallback if browser blocks popups
+        alert(title + "\n" + (options.body || "")); // Fallback if browser blocks popups
       }
     });
 
