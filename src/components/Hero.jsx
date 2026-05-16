@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 const Hero = () => {
   return (
-    <div className="bg-[url('images/bg-3.png')] bg-no-repeat bg-cover bg-center min-h-[60vh] sm:min-h-[70vh] md:min-h-[85vh] px-4 sm:px-6 md:px-10 lg:px-20 flex flex-col pt-[80px] md:pt-[100px]">
+    <div className="bg-[url('/images/bg-3.png')] bg-no-repeat bg-cover bg-center min-h-[60vh] sm:min-h-[70vh] md:min-h-[85vh] px-4 sm:px-6 md:px-10 lg:px-20 flex flex-col pt-[80px] md:pt-[100px]">
       {/* Hero Content */}
       <div className="flex flex-col w-full md:w-[70%] lg:w-[55%] xl:w-[50%] pt-6 sm:pt-8 md:pt-[5%] lg:pt-[8%]">
         {/* Animated Subheading */}

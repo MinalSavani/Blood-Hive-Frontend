@@ -18,7 +18,7 @@ const Donation = () => {
           <div className="w-full md:w-1/2 flex justify-center">
             <img 
               className="w-full max-w-[400px] md:max-w-none h-auto md:h-[400px] lg:h-[500px] object-cover rounded-lg" 
-              src="images/about4.png" 
+              src="/images/about4.png" 
               alt="Blood donation process"
               loading="lazy"
             />

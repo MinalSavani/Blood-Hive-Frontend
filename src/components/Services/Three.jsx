@@ -10,7 +10,7 @@ const Three = () => {
           <div className="w-full md:w-1/2 flex justify-center">
             <img 
               className="w-full max-w-[400px] md:max-w-none h-auto md:h-[400px] lg:h-[500px] object-cover rounded-lg" 
-              src="images/bldbnk.png" 
+              src="/images/bldbnk.png" 
               alt="Blood bank services"
               loading="lazy"
             />
